@@ -1,0 +1,44 @@
+- Get All Snippet Code of a category
+    
+    /`category`
+    
+    Example
+    /sort - Get All Sorting Code Snippets in every language
+    
+    /sort?pl=javascript&limit=2
+
+- Get All Snippet Code of a category in a specific programming language
+    
+    /`category`
+    
+    Example
+    /sort?pl=javascript - Get all Sorting Code Snippets in javascript
+
+
+- Get a single snippet code in all programming language
+
+    /`category`/`snippet-code-name`/
+
+    Example
+    /sort/bubblesort - Get bubblesort snippet code in all programming languages
+
+
+- Get a single snippet code in a specific programming language
+
+    /`category`/`snippet-code-name`?pl=`programming language`
+
+    Example
+    /sort/bubblesort?pl=python - Get bubblesort snippet code in python
+
+- Get a specific snippet with the Id
+    
+    /`snippet`/`id`
+
+    Example
+    /snippet/1 - Get snippet code with Id=1
+
+
+Query Parameters
+    - limit -> default: 100
+    - pl (programming language) -> required?
+
