@@ -15,7 +15,12 @@ export class Snippet {
     category: string
 
     @Prop()
+    language: string
+
+    @Prop()
     snippet: string
+
+
 }
 
 

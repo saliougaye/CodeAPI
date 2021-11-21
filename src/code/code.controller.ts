@@ -1,8 +1,8 @@
-import { Controller, Get, Param } from "@nestjs/common";
+import { Controller, Get, Param, Query } from "@nestjs/common";
 import { CodeService } from "./code.service";
 import { ApiDescription } from "./interfaces/api-description";
+import { QueryParameters } from "./interfaces/query-paramater";
 import { ResponseBase } from "./interfaces/response";
-import { Snippet } from "./schemas/snippet";
 
 @Controller("code")
 export class CodeController {
@@ -21,11 +21,22 @@ export class CodeController {
 
     @Get(":category")
     async getAllSnippets(
-        @Param('category') category: string
+        @Param('category') category: string,
+        @Query() query: QueryParameters
     ): Promise<ResponseBase> {
 
         try {
-            const snippets = await this.codeService.findAllSnippetInCategory(category);
+
+            const limit = query.limit || 100;
+            const language = query.pl || undefined; 
+
+            const snippets = await this.codeService.findAllSnippetInCategory(category, {
+                limit,
+                query: {
+                    category,
+                    language
+                }
+            });
 
             return {
                 data: snippets,
