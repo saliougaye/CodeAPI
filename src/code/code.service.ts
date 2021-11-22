@@ -1,9 +1,9 @@
-import { Injectable, Logger } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Snippet, SnippetDocumet } from "./schemas/snippet";
+import { Injectable, Logger } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Snippet, SnippetDocumet } from './schemas/snippet';
 import { Model } from  'mongoose';
-import { QueryParamCategory, QueryParamSingleSnippet, QueryParamSnippet } from "./interfaces/db";
-import { removeUndefinedFilters } from "./util/removeUndefinedFilters";
+import { QueryParamCategory, QueryParamSingleSnippet, QueryParamSnippet } from './interfaces/db';
+import { removeUndefinedFilters } from './util/removeUndefinedFilters';
 
 @Injectable()
 export class CodeService {

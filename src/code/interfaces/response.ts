@@ -1,4 +1,4 @@
-import { Snippet } from "../schemas/snippet";
+import { Snippet } from '../schemas/snippet';
 
 export interface ResponseBase {
     data: Snippet[] | Snippet | any |undefined
