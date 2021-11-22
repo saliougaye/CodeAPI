@@ -20,7 +20,7 @@ export class CodeController {
     }
 
     @Get(":category")
-    async getAllSnippets(
+    async getAllSnippetsInCategory(
         @Param('category') category: string,
         @Query() query: QueryParameters
     ): Promise<ResponseBase> {
@@ -30,7 +30,7 @@ export class CodeController {
             const limit = query.limit || 100;
             const language = query.pl || undefined; 
 
-            const snippets = await this.codeService.findAllSnippetInCategory(category, {
+            const snippets = await this.codeService.findAllSnippetInCategory({
                 limit,
                 query: {
                     category,
@@ -53,6 +53,43 @@ export class CodeController {
             }       
         }
         
+    }
+
+
+    @Get(":category/:snippet")
+    async getSnippetCodes(
+        @Param('category') category: string,
+        @Param('snippet') snippet: string,
+        @Query() query: QueryParameters
+    ) {
+        try {
+
+            const limit = query.limit || 100;
+            const language = query.pl || undefined; 
+
+            const snippets = await this.codeService.findSnippet({
+                limit,
+                query: {
+                    category,
+                    language,
+                    name: snippet
+                }
+            })
+
+            return {
+                result: true,
+                count: snippets.length,
+                errors: undefined,
+                data: snippets,
+            }
+        } catch(e) {
+            return {
+                result: false,
+                count: undefined,
+                errors: e,
+                data: undefined
+            }       
+        }
     }
     
 
