@@ -1,4 +1,6 @@
 export interface ApiDescription {
-    message: string,
-    version: string
+    name: string,
+    description: string,
+    version: string,
+    author: string
 }

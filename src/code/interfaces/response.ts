@@ -1,9 +1,7 @@
 import { Snippet } from "../schemas/snippet";
 
 export interface ResponseBase {
-    result: boolean,
-    data: Snippet[] | Snippet | undefined,
-    errors: ErrorBase | any | undefined,
+    data: Snippet[] | Snippet | any |undefined
     count: number | undefined
 }
 

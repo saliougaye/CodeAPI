@@ -1,4 +1,5 @@
-import { Controller, Get, Param, Query, Logger } from "@nestjs/common";
+import { Controller, Get, Param, Query, Logger, HttpException, HttpStatus, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { BaseExceptionFilter } from "@nestjs/core";
 import { CodeService } from "./code.service";
 import { ApiDescription } from "./interfaces/api-description";
 import { QueryParameters } from "./interfaces/query-paramater";
@@ -11,47 +12,49 @@ export class CodeController {
         private readonly codeService: CodeService
     ){}
 
-    @Get()
+    @Get("about")
     getDescription(): ApiDescription {
+
         return {
-            message: "Hello World",
-            version: "v1.0.0"
+            name: process.env.API_NAME,
+            description: process.env.API_DESCRIPTION,
+            author: process.env.API_AUTHOR,
+            version: process.env.API_VERSION
         }
     }
 
     @Get("snippet/:id")
     async getSnippetCode(
         @Param('id') id
-    ) {
+    ) : Promise<ResponseBase> {
         try {
-
             const snippet = await this.codeService.findSnippetWithId({
                 query: {
                     searchId: id
                 }
             });
 
+            if(!snippet) {
+                throw new NotFoundException()
+            }
+
             return {
-                result: true,
                 count: 1,
-                errors: undefined,
-                data: snippet,
+                data: snippet
             }
 
         } catch(e) {
 
-            return {
-                result: false,
-                count: undefined,
-                errors: e,
-                data: undefined
+            if (e instanceof NotFoundException) {
+                throw e;
             }
-            
+
+            throw new InternalServerErrorException();
         }
 
     }
 
-    @Get(":category")
+    @Get("search/:category")
     async getAllSnippetsInCategory(
         @Param('category') category: string,
         @Query() query: QueryParameters
@@ -72,23 +75,18 @@ export class CodeController {
 
             return {
                 data: snippets,
-                result: true,
-                errors: undefined,
                 count: snippets.length
             }
+
+
         } catch(e) {
-            return {
-                data: undefined,
-                errors: e,
-                result: false,
-                count: undefined
-            }       
+            throw new InternalServerErrorException();
         }
         
     }
 
 
-    @Get(":category/:snippet")
+    @Get("search/:category/:snippet")
     async getSnippetCodes(
         @Param('category') category: string,
         @Param('snippet') snippet: string,
@@ -109,18 +107,11 @@ export class CodeController {
             });
 
             return {
-                result: true,
                 count: snippets.length,
-                errors: undefined,
                 data: snippets,
             }
         } catch(e) {
-            return {
-                result: false,
-                count: undefined,
-                errors: e,
-                data: undefined
-            }       
+            throw new InternalServerErrorException();
         }
     }
 
