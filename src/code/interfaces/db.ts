@@ -17,3 +17,10 @@ export interface QueryParamSnippet extends DbFilter {
         language: string | undefined   
     }
 }
+
+
+export interface QueryParamSingleSnippet {
+    query: {
+        searchId: string
+    }
+}

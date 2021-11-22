@@ -32,7 +32,7 @@
 
 - Get a specific snippet with the Id
     
-    /`snippet`/`id`
+    /snippet/`id`
 
     Example
     /snippet/1 - Get snippet code with Id=1

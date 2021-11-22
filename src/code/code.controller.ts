@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from "@nestjs/common";
+import { Controller, Get, Param, Query, Logger } from "@nestjs/common";
 import { CodeService } from "./code.service";
 import { ApiDescription } from "./interfaces/api-description";
 import { QueryParameters } from "./interfaces/query-paramater";
@@ -17,6 +17,38 @@ export class CodeController {
             message: "Hello World",
             version: "v1.0.0"
         }
+    }
+
+    @Get("snippet/:id")
+    async getSnippetCode(
+        @Param('id') id
+    ) {
+        try {
+
+            const snippet = await this.codeService.findSnippetWithId({
+                query: {
+                    searchId: id
+                }
+            });
+
+            return {
+                result: true,
+                count: 1,
+                errors: undefined,
+                data: snippet,
+            }
+
+        } catch(e) {
+
+            return {
+                result: false,
+                count: undefined,
+                errors: e,
+                data: undefined
+            }
+            
+        }
+
     }
 
     @Get(":category")
@@ -61,7 +93,7 @@ export class CodeController {
         @Param('category') category: string,
         @Param('snippet') snippet: string,
         @Query() query: QueryParameters
-    ) {
+    ) : Promise<ResponseBase> {
         try {
 
             const limit = query.limit || 100;
@@ -74,7 +106,7 @@ export class CodeController {
                     language,
                     name: snippet
                 }
-            })
+            });
 
             return {
                 result: true,
@@ -91,6 +123,8 @@ export class CodeController {
             }       
         }
     }
+
+    
     
 
 }
