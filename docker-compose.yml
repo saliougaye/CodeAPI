@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+    app:
+      container_name: codeapi
+      image: nestjs-api-dev:1.0.0
+      build:
+          context: .
+          dockerfile: ./Dockerfile
+      command: npm run start:prod
+      ports:
+          - 3000:3000
+      networks:
+          - app-network
+      volumes:
+          - .:/usr/src/app
+          - /usr/src/app/node_modules
+    mongo:
+      image: mongo
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: example
+      networks:
+        - app-network
+
+
+networks:
+    app-network:
