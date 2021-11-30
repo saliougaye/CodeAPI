@@ -17,6 +17,8 @@ services:
           - /usr/src/app/node_modules
     mongo:
       image: mongo
+      ports:
+        - 27017:27018
       environment:
         MONGO_INITDB_ROOT_USERNAME: root
         MONGO_INITDB_ROOT_PASSWORD: example

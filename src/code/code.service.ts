@@ -20,7 +20,7 @@ export class CodeService {
 
         const result = await this.snippetModel.find(
             querySanitized,
-             '-_id'
+             '-_id -__v'
             ).limit(limit).exec();
 
         return result;

@@ -14,11 +14,11 @@ const SnippetSchema = new Schema({
         required: true
     },
     language: {
-        tpye: String,
+        type: String,
         required: true
     },
     snippet: {
-        tpye: String,
+        type: String,
         required: true
     }
 });
